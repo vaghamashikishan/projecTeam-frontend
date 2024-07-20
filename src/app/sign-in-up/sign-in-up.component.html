@@ -1,0 +1,56 @@
+<div class="grid grid-cols-8 h-[100vh]">
+
+    <div class="col-span-3  flex flex-col items-center justify-center text-6xl text-white bg-gray-900">
+        <div class="font-bold">Welcome</div>
+        <div class="">to</div>
+        <div class="font-bold">ProjecTeam</div>
+    </div>
+
+    <div class="col-span-5  flex items-center justify-center">
+        <div class="text-center">
+            <!-- name -->
+            <div class="">
+                <p-floatLabel>
+                    <input class="border-2 border-black p-2 w-[25vw]" pInputText id="username" [(ngModel)]="emailID"
+                        autocomplete="off" />
+                    <label for="username">Name</label>
+                </p-floatLabel>
+            </div>
+            <!-- email -->
+            <div class="mt-6">
+                <p-floatLabel>
+                    <input class="border-2 border-black p-2 w-[25vw]" pInputText id="username" [(ngModel)]="emailID"
+                        autocomplete="off" />
+                    <label for="username">Email ID</label>
+                </p-floatLabel>
+            </div>
+            <!-- password -->
+            <div class="mt-6">
+                <p-floatLabel>
+                    <input class="border-2 border-black p-2 w-[25vw]" pInputText id="password" [(ngModel)]="password"
+                        autocomplete="off" />
+                    <label for="username">Password</label>
+                </p-floatLabel>
+            </div>
+
+            <div class="text-center ">
+                <button class="success-btn w-[10vw]" (click)="isLogin ? signIn() : signUp()">{{ isLogin ? 'Sign In' :
+                    'Sign Up'}}</button>
+            </div>
+
+            <div class="mt-4">OR</div>
+
+            <div class="mt-2">
+                <button (click)="googleService()" pButton
+                    class="p-2 p-button-raised p-button-text flex items-center justify-center w-full max-w-xs mx-auto bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 focus:ring-4 focus:ring-blue-300 ">
+                    <img src="assets/logo/google_logo.svg" alt="Google logo" class="w-5 h-5 mr-2 ">
+                    <span>{{isLogin ? 'Sign In' : 'Sign Up'}} with Google</span>
+                </button>
+            </div>
+
+            <div class="mt-2 text-blue-600 cursor-pointer" (click)="isLogin = !isLogin">
+                {{ isLogin ? 'Create an account'
+                : 'Already having an account'}} </div>
+        </div>
+    </div>
+</div>
