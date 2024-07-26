@@ -1,0 +1,14 @@
+.viewport {
+  height: 400px;
+  width: 100%;
+  border: 1px solid #ddd;
+}
+.item {
+  height: 50px;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.create-project-button {
+  @apply bg-blue-900 p-3 mb-5 rounded-3xl text-white hover:cursor-pointer hover:shadow-2xl;
+}

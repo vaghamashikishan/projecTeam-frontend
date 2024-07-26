@@ -15,6 +15,16 @@
 
 @import "primeicons/primeicons.css";
 
+@import "ngx-toastr/toastr";
+
+// import Quill styles in styles.scss
+@import "../node_modules/quill/dist/quill.core.css";
+@import "../node_modules/quill/dist/quill.snow.css";
+
 .success-btn {
   @apply bg-green-600 rounded-md px-4 py-1 mt-4  hover:bg-green-700 transition-all;
+}
+
+.input-box {
+  @apply border-2 border-black p-2;
 }

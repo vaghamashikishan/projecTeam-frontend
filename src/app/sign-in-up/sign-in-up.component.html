@@ -9,17 +9,18 @@
     <div class="col-span-5  flex items-center justify-center">
         <div class="text-center">
             <!-- name -->
+            @if (!isLogin) {
             <div class="">
                 <p-floatLabel>
-                    <input class="border-2 border-black p-2 w-[25vw]" pInputText id="username" [(ngModel)]="emailID"
-                        autocomplete="off" />
+                    <input class="input-boxw-[25vw]" pInputText id="username" [(ngModel)]="name" autocomplete="off" />
                     <label for="username">Name</label>
                 </p-floatLabel>
             </div>
+            }
             <!-- email -->
             <div class="mt-6">
                 <p-floatLabel>
-                    <input class="border-2 border-black p-2 w-[25vw]" pInputText id="username" [(ngModel)]="emailID"
+                    <input class="input-box w-[25vw]" pInputText id="username" [(ngModel)]="emailID"
                         autocomplete="off" />
                     <label for="username">Email ID</label>
                 </p-floatLabel>
@@ -27,7 +28,7 @@
             <!-- password -->
             <div class="mt-6">
                 <p-floatLabel>
-                    <input class="border-2 border-black p-2 w-[25vw]" pInputText id="password" [(ngModel)]="password"
+                    <input class="input-box w-[25vw]" pInputText id="password" [(ngModel)]="password"
                         autocomplete="off" />
                     <label for="username">Password</label>
                 </p-floatLabel>
@@ -54,3 +55,5 @@
         </div>
     </div>
 </div>
+
+<div class="" (click)="signOut()">sign out</div>

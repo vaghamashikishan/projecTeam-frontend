@@ -12,11 +12,31 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { InputTextModule } from 'primeng/inputtext';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { ButtonModule } from 'primeng/button';
+import { SidebarModule } from 'primeng/sidebar';
+import { ToolbarModule } from 'primeng/toolbar';
+import { SplitButtonModule } from 'primeng/splitbutton';
+import { TooltipModule } from 'primeng/tooltip';
+import { EditorModule } from 'primeng/editor';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { ChipsModule } from 'primeng/chips';
+
+import { ToastrModule } from 'ngx-toastr';
+import { HttpClientModule } from '@angular/common/http';
+import { HomepageComponent } from './homepage/homepage.component';
+import { AddProjectComponent } from './add-project/add-project.component';
+import { AsterikDirective } from './_directives/asterik.directive';
+import { ExploreComponent } from './explore/explore.component';
+import { ProjectViewComponent } from './project-view/project-view.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SignInUpComponent
+    SignInUpComponent,
+    HomepageComponent,
+    AddProjectComponent,
+    AsterikDirective,
+    ExploreComponent,
+    ProjectViewComponent
   ],
   imports: [
     BrowserModule,
@@ -25,7 +45,21 @@ import { ButtonModule } from 'primeng/button';
     FormsModule,
     InputTextModule,
     FloatLabelModule,
-    ButtonModule
+    ButtonModule,
+    HttpClientModule,
+    SidebarModule,
+    ToolbarModule,
+    SplitButtonModule,
+    TooltipModule,
+    EditorModule,
+    MultiSelectModule,
+    ChipsModule,
+    ToastrModule.forRoot({
+      timeOut: 5000,
+      closeButton: true,
+      progressBar: true,
+      progressAnimation: 'decreasing'
+    })
   ],
   providers: [
     provideAnimationsAsync()
