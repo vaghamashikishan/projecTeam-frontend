@@ -16,12 +16,8 @@ export class ExploreComponent {
   projectData!: Project[];
 
   ngOnInit(): void {
-    forkJoin([
-      this._project.getAllProject(),
-      this._project.getTechnologyData()
-    ]).subscribe((res) => {
-      this.projectData = res[0];
-      console.log((res));
+    this._project.getAllProject().subscribe((res) => {
+      this.projectData = res;
     });
   }
 }

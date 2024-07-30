@@ -1,7 +1,7 @@
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
-import { Project } from '../_models/project.model';
+import { Kanban, Project } from '../_models/project.model';
 
 @Injectable({
   providedIn: 'root'
@@ -16,11 +16,27 @@ export class ProjectService {
     return this._http.get(`${this.ROOT_URL}/project/technologies`);
   }
 
+  getProjectByID(projectId: string) {
+    return this._http.get<Project>(`${this.ROOT_URL}/project/id/${projectId}`);
+  }
+
   getAllProject() {
     return this._http.get<Project[]>(`${this.ROOT_URL}/project`);
   }
 
   addProject(data: any) {
     return this._http.post(`${this.ROOT_URL}/project`, data);
+  }
+
+  addKanban(data: Kanban) {
+    return this._http.post(`${this.ROOT_URL}/project/kanban`, data);
+  }
+
+  getKanbanByProjectId(projectId: string) {
+    return this._http.get(`${this.ROOT_URL}/project/kanban/${projectId}`);
+  }
+
+  updateLikesOfProject(data: any) {
+    return this._http.post(`${this.ROOT_URL}/project/likes`, data);
   }
 }

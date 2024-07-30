@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -19,6 +20,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { EditorModule } from 'primeng/editor';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { ChipsModule } from 'primeng/chips';
+import { PickListModule } from 'primeng/picklist';
 
 import { ToastrModule } from 'ngx-toastr';
 import { HttpClientModule } from '@angular/common/http';
@@ -54,6 +56,8 @@ import { ProjectViewComponent } from './project-view/project-view.component';
     EditorModule,
     MultiSelectModule,
     ChipsModule,
+    PickListModule,
+    DragDropModule,
     ToastrModule.forRoot({
       timeOut: 5000,
       closeButton: true,

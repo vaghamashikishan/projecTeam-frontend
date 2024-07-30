@@ -1,1 +1,135 @@
-<p>project-view works!</p>
+<div class=" mx-auto p-6">
+    <div class="mb-6 flex justify-between items-center">
+        <div routerLink="/home/explore" href="/projects"
+            class="text-blue-600 hover:text-blue-800 flex items-center hover:cursor-pointer">
+            <span class="pi pi-arrow-left mr-2"></span>
+            <span>PROJECTS</span>
+        </div>
+        <!-- <div>
+            <a href="/about" class="text-gray-600 hover:text-gray-800 mr-4">About</a>
+            <a href="/guidelines" class="text-gray-600 hover:text-gray-800">Guidelines</a>
+        </div> -->
+    </div>
+
+    <div class="flex justify-between flex-wrap">
+        <div class="border-2 border-gray-400 p-3 ">
+            <h1 class="text-3xl font-bold mb-4">{{ project.title }}</h1>
+
+            <div class="mb-4 flex items-center space-x-2">
+                @for (tech of project.technologies; track $index) {
+                <span class="px-3 py-1 bg-blue-600 text-white rounded-full text-sm">{{tech.name}}</span>
+                }
+                @for (skill of project.collabSkills; track $index) {
+                <span class="px-3 py-1 bg-gray-200 text-gray-800 rounded-full text-sm">{{skill}}</span>
+                }
+            </div>
+
+            <div class="font-bold text-2xl underline">Description</div>
+            <div class="mb-6" #descriptionDiv>
+                <!-- description text is done by TS file -->
+            </div>
+
+            <div class="font-bold text-2xl underline">Kanban Board </div>
+            <span class="text-sm">(drag & drop the tasks to change the stage)</span>
+            <div class="flex m-1 justify-end">
+                <button class="success-btn" (click)="updateKanban()">Update the changes</button>
+            </div>
+            <div class="flex gap-1 mb-6">
+                <div cdkDropList #newIssuesList="cdkDropList" id="newIssues" class="border p-2 rounded w-60"
+                    [cdkDropListData]="kanban.newIssues" [cdkDropListConnectedTo]="['productBacklog']"
+                    (cdkDropListDropped)="drop($event)">
+                    <h2 class="text-lg font-bold">New Issues</h2>
+
+                    @if (addingNewIssue) {
+                    <div class="flex flex-col items-center">
+                        <input pInputText id="username" [(ngModel)]="newIssue" class="input-box overflow-hidden w-56" />
+                        <button class="p-1.5 m-1 border rounded text-white bg-blue-600 w-full hover:bg-blue-700"
+                            (click)="addNewIssue()">Add</button>
+                    </div>
+                    }@else {
+                    <button class="p-1.5 m-1 border rounded text-white bg-blue-600 w-full hover:bg-blue-700"
+                        (click)="addingNewIssue = !addingNewIssue">Add new
+                        Issue</button>
+                    }
+
+                    <div *ngFor="let item of kanban.newIssues" cdkDrag class="p-2 m-2 border rounded cursor-pointer">
+                        {{ item }}
+                    </div>
+                </div>
+
+                <div cdkDropList #productBacklogList="cdkDropList" id="productBacklog"
+                    class="border-2 p-2 rounded w-52 border-green-300" [cdkDropListData]="kanban.productBacklog"
+                    [cdkDropListConnectedTo]="['newIssues', 'inProgress']" (cdkDropListDropped)="drop($event)">
+                    <h2 class="text-lg font-bold">Product Backlog</h2>
+                    <div *ngFor="let item of kanban.productBacklog" cdkDrag
+                        class="p-2 m-2 border rounded cursor-pointer">
+                        {{ item }}
+                    </div>
+                </div>
+
+                <div cdkDropList #inProgressList="cdkDropList" id="inProgress"
+                    class="border-2 p-2 rounded w-52 border-green-500" [cdkDropListData]="kanban.inProgress"
+                    [cdkDropListConnectedTo]="['productBacklog', 'done']" (cdkDropListDropped)="drop($event)">
+                    <h2 class="text-lg font-bold">In Progress</h2>
+                    <div *ngFor="let item of kanban.inProgress" cdkDrag class="p-2 m-2 border rounded cursor-pointer">
+                        {{ item }}
+                    </div>
+                </div>
+
+                <div cdkDropList #doneList="cdkDropList" id="done" class="border-4 p-2 rounded w-52 border-green-600"
+                    [cdkDropListData]="kanban.done" [cdkDropListConnectedTo]="['inProgress']"
+                    (cdkDropListDropped)="drop($event)">
+                    <h2 class="text-lg font-bold">Done</h2>
+                    <div *ngFor="let item of kanban.done" cdkDrag class="p-2 m-2 border rounded cursor-pointer">
+                        {{ item }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <h2 class="text-xl font-semibold mb-2">Project Details:</h2>
+                <p class="text-gray-700">Created by: {{ project.ownerName }}</p>
+                <p class="text-gray-700">Created at: {{ project.createdAt | date:'medium' }}</p>
+                <p class="text-gray-700">Last updated: {{ project.updatedAt | date:'medium' }}</p>
+            </div>
+        </div>
+        <div class="">
+            <div class="flex justify-between items-center mb-6">
+                <div class="flex items-center">
+                    <span class="text-2xl font-bold mr-2">{{completePercentage}}%</span>
+                    <span class="text-sm text-gray-600">Track your progress</span>
+                </div>
+
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mb-6">
+                <div class="bg-white p-4 rounded shadow cursor-pointer like-btn" (click)="likedProject()">
+                    <div class="flex items-center mb-2 ">
+                        <span class="pi down-fill pi-thumbs-up"></span>
+                        <span class="font-semibold ml-2">Likes: {{project.likes}}</span>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded shadow">
+                    <div class="flex items-center mb-2">
+                        <span class="pi pi-check-circle"></span>
+                        <span class="font-semibold ml-2">Interested</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <h2 class="text-xl font-semibold mb-2">Collaborators:</h2>
+                <div class="flex flex-wrap gap-4">
+                    <div *ngFor="let collaborator of project.collaborators" class="flex items-center">
+                        <img [src]="collaborator[1]" alt="Collaborator" class="w-12 h-12 rounded-full mr-2">
+                        <div>
+                            <p class="font-semibold">{{ collaborator[0] }}</p>
+                            <p class="text-sm text-gray-600">{{ collaborator[2] }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

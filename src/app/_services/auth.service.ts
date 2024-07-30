@@ -33,7 +33,7 @@ export class AuthService {
           localStorage.setItem('ownerName', `${session.user.user_metadata['full_name']}`);
         }
         _ngZone.run(() => {
-          this._router.navigate(['/main']);
+          this._router.navigate(['/home']);
         })
         //   // console.log(session);
         //   // localStorage.setItem('session', JSON.stringify(session?.user));
