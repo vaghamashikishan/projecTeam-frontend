@@ -39,4 +39,20 @@ export class ProjectService {
   updateLikesOfProject(data: any) {
     return this._http.post(`${this.ROOT_URL}/project/likes`, data);
   }
+
+  addCollabRequest(data: any) {
+    return this._http.post(`${this.ROOT_URL}/project/collab-request`, data);
+  }
+
+  getAllCollabRequestForUser(userId: string) {
+    return this._http.get(`${this.ROOT_URL}/project/collab-request/${userId}`);
+  }
+
+  handleCollabRequest(data: any) {
+    return this._http.post(`${this.ROOT_URL}/project/handle-collab-request`, data);
+  }
+
+  getDashBoardData(userId: string) {
+    return this._http.get(`${this.ROOT_URL}/dashboard/${userId}`);
+  }
 }

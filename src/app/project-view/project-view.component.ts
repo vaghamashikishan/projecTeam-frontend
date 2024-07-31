@@ -1,9 +1,10 @@
 import { Component, ElementRef, Renderer2, ViewChild, viewChild } from '@angular/core';
 import { ProjectService } from '../_services/project.service';
-import { Kanban, Project } from '../_models/project.model';
+import { CollabRequest, Kanban, Project } from '../_models/project.model';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { ToastrService } from 'ngx-toastr';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from '../_services/auth.service';
 
 @Component({
   selector: 'app-project-view',
@@ -12,6 +13,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ProjectViewComponent {
   projectId: string = "";
+  // projectId: string = "66a50db5f0e87a0e52761e35";
   project = new Project();
   @ViewChild('descriptionDiv') descriptionDiv!: ElementRef;
   kanban = new Kanban();
@@ -19,26 +21,35 @@ export class ProjectViewComponent {
   newIssue: string = "";
   completePercentage: number = 0;
   isLikedProject: boolean = false;
+  isDialogVisible: boolean = false;
+  collabMsg: string = "";
 
   constructor(
+    private _authService: AuthService,
     private _projectService: ProjectService,
     private _renderer: Renderer2,
     private _toastr: ToastrService,
-    private _route: ActivatedRoute
+    private _route: ActivatedRoute,
+    private _router: Router
   ) { }
 
   ngOnInit(): void {
     this.projectId = this._route.snapshot.paramMap.get('id')!;
-    this._projectService.getProjectByID(this.projectId).subscribe(res => {
-      this.project = res;
-      this._renderer.setProperty(this.descriptionDiv.nativeElement, 'innerHTML', this.project.description)
-    });
-    this._projectService.getKanbanByProjectId(this.projectId).subscribe((res: any) => {
-      if (res !== null) {
-        this.kanban = res;
-        this.calculateKanbanCompletion();
-      }
-    })
+    if (!!this.projectId) {
+
+      this._projectService.getProjectByID(this.projectId).subscribe(res => {
+        this.project = res;
+        this._renderer.setProperty(this.descriptionDiv.nativeElement, 'innerHTML', this.project.description)
+      });
+      this._projectService.getKanbanByProjectId(this.projectId).subscribe((res: any) => {
+        if (res !== null) {
+          this.kanban = res;
+          this.calculateKanbanCompletion();
+        }
+      })
+    } else {
+      this._router.navigate(['/home/explore'])
+    }
   }
 
   addNewIssue() {
@@ -89,5 +100,26 @@ export class ProjectViewComponent {
     this._projectService.updateLikesOfProject(data).subscribe((res: any) => {
       this._toastr.success(res.msg, "Done");
     })
+  }
+
+  openCollabDialog() {
+    this.isDialogVisible = true;
+  }
+
+  sendCollabRequest() {
+    const collabData = new CollabRequest();
+    collabData.ownerId = this.project.ownerId;
+    collabData.projectId = this.project._id;
+    collabData.projectTitle = this.project.title;
+    collabData.requestUserId = this._authService.getUserID();
+    collabData.requestUserName = this._authService.getUserName();
+    collabData.msg = this.collabMsg;
+
+    this._projectService.addCollabRequest(collabData).subscribe((res: any) => {
+      this._toastr.success(res.msg, "Done");
+    })
+
+    this.collabMsg = "";
+    this.isDialogVisible = false;
   }
 }

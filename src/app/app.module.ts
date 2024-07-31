@@ -21,6 +21,9 @@ import { EditorModule } from 'primeng/editor';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { ChipsModule } from 'primeng/chips';
 import { PickListModule } from 'primeng/picklist';
+import { DialogModule } from 'primeng/dialog';
+import { BadgeModule } from 'primeng/badge';
+import { TabViewModule } from 'primeng/tabview';
 
 import { ToastrModule } from 'ngx-toastr';
 import { HttpClientModule } from '@angular/common/http';
@@ -29,6 +32,13 @@ import { AddProjectComponent } from './add-project/add-project.component';
 import { AsterikDirective } from './_directives/asterik.directive';
 import { ExploreComponent } from './explore/explore.component';
 import { ProjectViewComponent } from './project-view/project-view.component';
+import { NotificationsComponent } from './notifications/notifications.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
+import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
+import { NgxsModule } from '@ngxs/store';
+import { ProjectState } from './_store/state/project.state';
+import { Dashboard } from './_store/state/dashboard.state';
 
 @NgModule({
   declarations: [
@@ -38,7 +48,9 @@ import { ProjectViewComponent } from './project-view/project-view.component';
     AddProjectComponent,
     AsterikDirective,
     ExploreComponent,
-    ProjectViewComponent
+    ProjectViewComponent,
+    NotificationsComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -58,12 +70,18 @@ import { ProjectViewComponent } from './project-view/project-view.component';
     ChipsModule,
     PickListModule,
     DragDropModule,
+    DialogModule,
+    BadgeModule,
+    TabViewModule,
     ToastrModule.forRoot({
       timeOut: 5000,
       closeButton: true,
       progressBar: true,
       progressAnimation: 'decreasing'
-    })
+    }),
+    NgxsModule.forRoot([ProjectState, Dashboard], {}),
+    NgxsLoggerPluginModule.forRoot({}),
+    NgxsReduxDevtoolsPluginModule.forRoot({})
   ],
   providers: [
     provideAnimationsAsync()

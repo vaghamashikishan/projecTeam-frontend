@@ -5,6 +5,8 @@ import { HomepageComponent } from './homepage/homepage.component';
 import { ExploreComponent } from './explore/explore.component';
 import { ProjectViewComponent } from './project-view/project-view.component';
 import { AddProjectComponent } from './add-project/add-project.component';
+import { NotificationsComponent } from './notifications/notifications.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 const routes: Routes = [
   { path: 'login', component: SignInUpComponent },
@@ -13,7 +15,9 @@ const routes: Routes = [
       { path: '', component: ExploreComponent },
       { path: 'explore', component: ExploreComponent },
       { path: 'project/:id', component: ProjectViewComponent },
+      { path: 'dashboard', component: DashboardComponent },
       { path: 'add-project', component: AddProjectComponent },
+      { path: 'notifications', component: NotificationsComponent },
     ]
   },
   { path: '**', component: SignInUpComponent },

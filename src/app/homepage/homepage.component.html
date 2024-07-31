@@ -1,5 +1,3 @@
-<!-- <div class="" (click)="signOut()">sign out</div> -->
-
 <div class="card">
     <p-toolbar styleClass="bg-gray-900 shadow-2" class="bg-blue-900 text-white">
         <ng-template pTemplate="start">
@@ -12,7 +10,7 @@
                     <i class="pi pi-home text-2xl mr-2"></i>
                     <!-- <div>Home</div> -->
                 </button>
-                <button pTooltip="Dashboard" tooltipPosition="bottom"
+                <button routerLink="dashboard" pTooltip="Dashboard" tooltipPosition="bottom"
                     class="p-link inline-flex justify-content-center align-items-center text-white h-3rem w-3rem border-circle hover:bg-white-alpha-10 transition-all transition-duration-200">
                     <i class="pi pi-objects-column text-2xl mr-2"></i>
                     <!-- <div>Dashboard</div> -->
@@ -22,7 +20,7 @@
                     <i class="pi pi-plus text-2xl mr-2"></i>
                     <!-- <div>Notifications</div> -->
                 </button>
-                <button pTooltip="Notifications" tooltipPosition="bottom"
+                <button routerLink="notifications" pTooltip="Notifications" tooltipPosition="bottom"
                     class="p-link inline-flex justify-content-center align-items-center text-white h-3rem w-3rem border-circle hover:bg-white-alpha-10 transition-all transition-duration-200">
                     <i class="pi pi-bell text-2xl mr-2"></i>
                     <!-- <div>Notifications</div> -->
@@ -31,6 +29,9 @@
         </ng-template>
         <ng-template pTemplate="end">
             <div class="flex align-items-center gap-2">
+                <span class="font-bold text-bluegray-50">
+                    {{_loginAuthService.getUserName()}},
+                </span>
                 <span class="font-bold text-bluegray-50 cursor-pointer" (click)="_loginAuthService.singOut()">
                     Sign Out
                 </span>
@@ -43,4 +44,6 @@
     <!-- <app-add-project></app-add-project> -->
     <!-- <app-explore></app-explore> -->
     <!-- <app-project-view></app-project-view> -->
+    <!-- <app-notifications></app-notifications> -->
+    <!-- <app-dashboard></app-dashboard> -->
 </div>

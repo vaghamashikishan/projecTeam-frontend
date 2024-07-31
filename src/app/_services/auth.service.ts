@@ -25,18 +25,15 @@ export class AuthService {
 
     this.supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_IN' && session) {
-
-        if (sessionStorage.getItem('isUserCreated') as string === null) {
+        if (localStorage.getItem('isUserCreated') as string == null) {
           this.sendUserToDB();
           localStorage.setItem('isUserCreated', 'true');
           localStorage.setItem('ownerId', `${session.user.id}`);
           localStorage.setItem('ownerName', `${session.user.user_metadata['full_name']}`);
+          _ngZone.run(() => {
+            this._router.navigate(['/home']);
+          })
         }
-        _ngZone.run(() => {
-          this._router.navigate(['/home']);
-        })
-        //   // console.log(session);
-        //   // localStorage.setItem('session', JSON.stringify(session?.user));
       }
     });
   }
@@ -97,9 +94,9 @@ export class AuthService {
 
   async singOut() {
     await this.supabase?.auth.signOut();
-    sessionStorage.removeItem('isUserCreated');
-    sessionStorage.removeItem('ownerId');
-    sessionStorage.removeItem('ownerName');
+    localStorage.removeItem('isUserCreated');
+    localStorage.removeItem('ownerId');
+    localStorage.removeItem('ownerName');
     this._router.navigate(['login']);
   }
 

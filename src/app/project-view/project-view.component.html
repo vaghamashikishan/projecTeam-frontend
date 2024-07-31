@@ -109,22 +109,35 @@
                         <span class="font-semibold ml-2">Likes: {{project.likes}}</span>
                     </div>
                 </div>
-                <div class="bg-white p-4 rounded shadow">
+                <div class="bg-white p-4 rounded shadow cursor-pointer collab-btn" (click)="openCollabDialog()">
                     <div class="flex items-center mb-2">
                         <span class="pi pi-check-circle"></span>
-                        <span class="font-semibold ml-2">Interested</span>
+                        <span class="font-semibold ml-2">Want to be Collobrator</span>
                     </div>
                 </div>
+                <!-- collab confirmation dialog -->
+                <p-dialog header="Send request" [modal]="true" [(visible)]="isDialogVisible"
+                    [style]="{ width: '25rem' }">
+                    <span class="p-text-secondary block mb-5">Add message with collabration request.</span>
+                    <div class="w-full">
+                        <textarea rows="5" cols="30" pInputTextarea [(ngModel)]="collabMsg">
+                        </textarea>
+                    </div>
+                    <div class="flex justify-between gap-2">
+                        <p-button label="Cancel" severity="secondary" (onClick)="isDialogVisible = false" />
+                        <p-button label="Send" class="" (onClick)="sendCollabRequest()" />
+                    </div>
+                </p-dialog>
             </div>
 
             <div class="mb-6">
                 <h2 class="text-xl font-semibold mb-2">Collaborators:</h2>
                 <div class="flex flex-wrap gap-4">
                     <div *ngFor="let collaborator of project.collaborators" class="flex items-center">
-                        <img [src]="collaborator[1]" alt="Collaborator" class="w-12 h-12 rounded-full mr-2">
+                        <!-- <img [src]="collaborator[1]" alt="Collaborator" class="w-12 h-12 rounded-full mr-2"> -->
                         <div>
-                            <p class="font-semibold">{{ collaborator[0] }}</p>
-                            <p class="text-sm text-gray-600">{{ collaborator[2] }}</p>
+                            <p class="font-semibold">{{ collaborator[1] }}</p>
+                            <p class="text-sm text-gray-600">{{ collaborator[0] }}</p>
                         </div>
                     </div>
                 </div>

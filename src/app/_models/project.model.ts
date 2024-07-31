@@ -25,3 +25,13 @@ export class Kanban {
     inProgress: string[] = [];
     done: string[] = [];
 }
+
+export class CollabRequest {
+    _id?: string;
+    projectId!: string;
+    projectTitle!: string;
+    ownerId!: string;
+    requestUserId!: string;
+    requestUserName!: string;
+    msg?: string;
+}

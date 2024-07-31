@@ -1,0 +1,89 @@
+<div class="card">
+    <p-tabView>
+        <p-tabPanel header="Your Projects">
+            <div class="flex flex-wrap justify-center">
+                <ng-container *ngFor="let project of selfCreatedProjectData; ">
+                    <div
+                        class="inline-block md:w-[25vw] w-[30vw] m-4 bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition duration-300">
+                        <div class="p-6">
+                            <h2 class="font-bold text-2xl mb-2 text-gray-800">{{project.title}}</h2>
+                            <div class="mb-4">
+                                <h3 class="text-xs uppercase font-bold text-gray-500 mb-2">Technologies</h3>
+                                <div class="flex flex-wrap">
+                                    <ng-container *ngFor="let item of project.technologies; ">
+                                        <span
+                                            class="mr-2 mb-2 px-3 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-full">
+                                            {{item.name}}
+                                        </span>
+                                    </ng-container>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="text-xs uppercase font-bold text-gray-500 mb-2">Collaboration Skills</h3>
+                                <div class="flex flex-wrap">
+                                    <ng-container *ngFor="let item of project.collabSkills; ">
+                                        <span
+                                            class="mr-2 mb-2 px-3 py-1 bg-indigo-100 text-indigo-800 text-xs font-medium rounded-full">
+                                            {{item}}
+                                        </span>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="px-6 py-4 bg-gray-50 border-t border-gray-200">
+                            <button
+                                class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition duration-300 ease-in-out"
+                                [routerLink]="['/home/project', project._id]">
+                                View Project
+                            </button>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </p-tabPanel>
+        <p-tabPanel header="Collabed Projects">
+            <div class="flex flex-wrap justify-center">
+                <ng-container *ngFor="let project of collabedProjectData; ">
+                    <div
+                        class="inline-block md:w-[25vw] w-[30vw] m-4 bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition duration-300">
+                        <div class="p-6">
+                            <h2 class="font-bold text-2xl mb-2 text-gray-800">{{project.title}}</h2>
+                            <p class="text-sm text-gray-600 mb-4">Created by <span
+                                    class="font-semibold">{{project.ownerName}}</span>
+                            </p>
+                            <div class="mb-4">
+                                <h3 class="text-xs uppercase font-bold text-gray-500 mb-2">Technologies</h3>
+                                <div class="flex flex-wrap">
+                                    <ng-container *ngFor="let item of project.technologies; ">
+                                        <span
+                                            class="mr-2 mb-2 px-3 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-full">
+                                            {{item.name}}
+                                        </span>
+                                    </ng-container>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="text-xs uppercase font-bold text-gray-500 mb-2">Collaboration Skills</h3>
+                                <div class="flex flex-wrap">
+                                    <ng-container *ngFor="let item of project.collabSkills; ">
+                                        <span
+                                            class="mr-2 mb-2 px-3 py-1 bg-indigo-100 text-indigo-800 text-xs font-medium rounded-full">
+                                            {{item}}
+                                        </span>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="px-6 py-4 bg-gray-50 border-t border-gray-200">
+                            <button
+                                class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition duration-300 ease-in-out"
+                                [routerLink]="['/home/project', project._id]">
+                                View Project
+                            </button>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </p-tabPanel>
+    </p-tabView>
+</div>

@@ -1,0 +1,24 @@
+<div class="p-6 bg-gray-100 ">
+    <div class="text-3xl font-bold text-center mb-6">Requests</div>
+
+    <div class="space-y-4">
+        <div *ngFor="let collab of collabData; let i = index"
+            class="bg-white shadow-md rounded-lg p-4 flex justify-between items-center">
+            <div>
+                <div class="text-xl font-semibold text-gray-800">Project: {{collab.projectTitle}}</div>
+                <div class="text-xl font-semibold text-gray-800">{{collab.requestUserName}}</div>
+                <div class="text-gray-600">{{collab.msg}}</div>
+            </div>
+            <div class="flex space-x-2">
+                <button (click)="handleRequest(collab._id!, false)"
+                    class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-full flex items-center">
+                    <span class="pi pi-times mr-2"></span>Reject
+                </button>
+                <button (click)="handleRequest(collab._id!, true)"
+                    class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-full flex items-center">
+                    <span class="pi pi-check mr-2"></span>Accept
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
