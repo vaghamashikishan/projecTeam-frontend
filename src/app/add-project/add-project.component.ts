@@ -1,8 +1,12 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { ProjectService } from '../_services/project.service';
 import { ToastrService } from 'ngx-toastr';
 import { Project, Technology } from '../_models/project.model';
 import { AuthService } from '../_services/auth.service';
+import { Observable } from 'rxjs';
+import { Store } from '@ngxs/store';
+import { ProjectState } from '../_store/state/project.state';
+import { GetTechnologies } from '../_store/action/project.action';
 
 
 @Component({
@@ -19,16 +23,32 @@ export class AddProjectComponent {
   allTechnologies!: Technology[];
   selectedTechnologies!: Technology[];
 
+  allTechnologies$: Observable<Technology[]> = inject(Store).select(ProjectState.getAllTechnologies);
+  isTechnologiesLoaded$: Observable<boolean> = inject(Store).select(ProjectState.getTechnologiesLoaded);
+
   constructor(
     private _projectService: ProjectService,
     private _authService: AuthService,
-    private _toastr: ToastrService
-  ) { }
+    private _toastr: ToastrService,
+    private _store: Store
+  ) {
+    console.log("hi");
+
+  }
 
   ngOnInit() {
-    this._projectService.getTechnologyData().subscribe((res: any) => {
-      this.allTechnologies = res;
+    this.isTechnologiesLoaded$.subscribe(res => {
+      if (!res) {
+        this._store.dispatch(new GetTechnologies());
+      }
     });
+
+    this.allTechnologies$.subscribe(res => this.allTechnologies = res);
+
+
+    // this._projectService.getTechnologyData().subscribe((res: any) => {
+    //   this.allTechnologies = res;
+    // });
   }
 
   addProject() {

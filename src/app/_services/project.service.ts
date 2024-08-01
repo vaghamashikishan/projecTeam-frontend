@@ -1,7 +1,7 @@
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
-import { Kanban, Project } from '../_models/project.model';
+import { CollabRequest, Kanban, Project, Technology } from '../_models/project.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,7 @@ export class ProjectService {
   ) { }
 
   getTechnologyData() {
-    return this._http.get(`${this.ROOT_URL}/project/technologies`);
+    return this._http.get<Technology[]>(`${this.ROOT_URL}/project/technologies`);
   }
 
   getProjectByID(projectId: string) {

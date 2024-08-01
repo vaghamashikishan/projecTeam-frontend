@@ -1,8 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CollabRequest } from '../_models/project.model';
 import { ProjectService } from '../_services/project.service';
 import { AuthService } from '../_services/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { Observable } from 'rxjs';
+import { Store } from '@ngxs/store';
+import { CollabRequests } from '../_store/state/collab-request.state';
+import { GetCollabRequests } from '../_store/action/collab-request.action';
 
 @Component({
   selector: 'app-notifications',
@@ -11,19 +15,30 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class NotificationsComponent {
   collabData!: CollabRequest[];
+  collabData$: Observable<CollabRequest[]> = inject(Store).select(CollabRequests.getCollabRequestData);
+  isCollabDataLoaded$: Observable<boolean> = inject(Store).select(CollabRequests.getIsCollabRequestDataLoaded);
 
   constructor(
     private _authService: AuthService,
     private _projectService: ProjectService,
+    private _store: Store,
     private _toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
-    const userId = this._authService.getUserID();
-    this._projectService.getAllCollabRequestForUser(userId).subscribe((res: any) => {
-      this.collabData = res.data;
-      console.log(this.collabData);
+    this.isCollabDataLoaded$.subscribe(res => {
+      if (!res) {
+        this._store.dispatch(new GetCollabRequests());
+      }
     });
+
+    this.collabData$.subscribe(res => this.collabData = res);
+
+    // const userId = this._authService.getUserID();
+    // this._projectService.getAllCollabRequestForUser(userId).subscribe((res: any) => {
+    //   this.collabData = res.data;
+    //   console.log(this.collabData);
+    // });
   }
 
   handleRequest(collabId: string, isAccepted: boolean) {

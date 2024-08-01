@@ -39,6 +39,7 @@ import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { NgxsModule } from '@ngxs/store';
 import { ProjectState } from './_store/state/project.state';
 import { Dashboard } from './_store/state/dashboard.state';
+import { CollabRequests } from './_store/state/collab-request.state';
 
 @NgModule({
   declarations: [
@@ -79,7 +80,7 @@ import { Dashboard } from './_store/state/dashboard.state';
       progressBar: true,
       progressAnimation: 'decreasing'
     }),
-    NgxsModule.forRoot([ProjectState, Dashboard], {}),
+    NgxsModule.forRoot([ProjectState, Dashboard, CollabRequests], {}),
     NgxsLoggerPluginModule.forRoot({}),
     NgxsReduxDevtoolsPluginModule.forRoot({})
   ],
