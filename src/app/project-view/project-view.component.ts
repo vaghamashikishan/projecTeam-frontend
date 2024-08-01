@@ -1,10 +1,14 @@
-import { Component, ElementRef, Renderer2, ViewChild, viewChild } from '@angular/core';
+import { Component, ElementRef, inject, Renderer2, ViewChild, viewChild } from '@angular/core';
 import { ProjectService } from '../_services/project.service';
 import { CollabRequest, Kanban, Project } from '../_models/project.model';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../_services/auth.service';
+import { Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { Dashboard } from '../_store/state/dashboard.state';
+import { GetDashboard } from '../_store/action/dashboard.action';
 
 @Component({
   selector: 'app-project-view',
@@ -24,23 +28,31 @@ export class ProjectViewComponent {
   isDialogVisible: boolean = false;
   collabMsg: string = "";
 
+  isOwner: boolean = false;
+  isCollobrator: boolean = false;
+
+  allProjectData$: Observable<Project[][]> = inject(Store).select(Dashboard.getCreatedAndCollabedProjects);
+  isDashboardDataLoaded$: Observable<boolean> = inject(Store).select(Dashboard.getIsDashboardProjectsLoaded);
+
   constructor(
     private _authService: AuthService,
     private _projectService: ProjectService,
     private _renderer: Renderer2,
     private _toastr: ToastrService,
     private _route: ActivatedRoute,
-    private _router: Router
+    private _router: Router,
+    private _store: Store
   ) { }
 
   ngOnInit(): void {
     this.projectId = this._route.snapshot.paramMap.get('id')!;
     if (!!this.projectId) {
-
       this._projectService.getProjectByID(this.projectId).subscribe(res => {
         this.project = res;
-        this._renderer.setProperty(this.descriptionDiv.nativeElement, 'innerHTML', this.project.description)
+        this._renderer.setProperty(this.descriptionDiv.nativeElement, 'innerHTML', this.project.description);
+        this.setIfUserIsOwnerOrCollabrator();
       });
+
       this._projectService.getKanbanByProjectId(this.projectId).subscribe((res: any) => {
         if (res !== null) {
           this.kanban = res;
@@ -48,7 +60,33 @@ export class ProjectViewComponent {
         }
       })
     } else {
-      this._router.navigate(['/home/explore'])
+      this._router.navigate(['/home/explore']);
+    }
+
+
+  }
+
+  // checking if user is owner or collobrator
+  setIfUserIsOwnerOrCollabrator() {
+    if (this._authService.getUserID() === this.project.ownerId) {
+      this.isOwner = true;
+    } else {
+      let collabedProjectData!: Project[];
+      this.isDashboardDataLoaded$.subscribe(res => {
+        if (!res) {
+          this._store.dispatch(new GetDashboard());
+        }
+      });
+
+      this.allProjectData$.subscribe((res: any) => {
+        collabedProjectData = res[1];
+
+        collabedProjectData.map(item => {
+          if (item._id === this.project._id) {
+            this.isCollobrator = true;
+          }
+        });
+      });
     }
   }
 

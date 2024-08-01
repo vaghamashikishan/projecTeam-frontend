@@ -12,7 +12,7 @@
     </div>
 
     <div class="flex justify-between flex-wrap">
-        <div class="border-2 border-gray-400 p-3 ">
+        <div class="  ">
             <h1 class="text-3xl font-bold mb-4">{{ project.title }}</h1>
 
             <div class="mb-4 flex items-center space-x-2">
@@ -30,6 +30,7 @@
             </div>
 
             <div class="font-bold text-2xl underline">Kanban Board </div>
+            @if (isOwner || isCollobrator) {
             <span class="text-sm">(drag & drop the tasks to change the stage)</span>
             <div class="flex m-1 justify-end">
                 <button class="success-btn" (click)="updateKanban()">Update the changes</button>
@@ -85,7 +86,9 @@
                     </div>
                 </div>
             </div>
-
+            }@else{
+            <div class="text-2xl mb-6 text-red-600">Be a collabrator to see a Kanban</div>
+            }
             <div class="mb-6">
                 <h2 class="text-xl font-semibold mb-2">Project Details:</h2>
                 <p class="text-gray-700">Created by: {{ project.ownerName }}</p>
@@ -109,12 +112,16 @@
                         <span class="font-semibold ml-2">Likes: {{project.likes}}</span>
                     </div>
                 </div>
+
+                @if (!isOwner && !isCollobrator) {
                 <div class="bg-white p-4 rounded shadow cursor-pointer collab-btn" (click)="openCollabDialog()">
                     <div class="flex items-center mb-2">
                         <span class="pi pi-check-circle"></span>
                         <span class="font-semibold ml-2">Want to be Collobrator</span>
                     </div>
                 </div>
+                }
+
                 <!-- collab confirmation dialog -->
                 <p-dialog header="Send request" [modal]="true" [(visible)]="isDialogVisible"
                     [style]="{ width: '25rem' }">

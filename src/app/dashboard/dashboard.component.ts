@@ -33,6 +33,6 @@ export class DashboardComponent {
     this.allProjectData$.subscribe((res: any) => {
       this.selfCreatedProjectData = res[0];
       this.collabedProjectData = res[1];
-    })
+    });
   }
 }

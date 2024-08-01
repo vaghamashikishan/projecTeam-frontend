@@ -1,9 +1,10 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { createClient, LockFunc, SupabaseClient } from '@supabase/supabase-js';
 import { environment } from '../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
+
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,7 @@ export class AuthService {
     private _toastr: ToastrService,
     private _ngZone: NgZone
   ) {
+
     this.supabase = createClient(
       environment.SUPABASE_URL,
       environment.SUPABASE_KEY
@@ -30,6 +32,7 @@ export class AuthService {
           localStorage.setItem('isUserCreated', 'true');
           localStorage.setItem('ownerId', `${session.user.id}`);
           localStorage.setItem('ownerName', `${session.user.user_metadata['full_name']}`);
+
           _ngZone.run(() => {
             this._router.navigate(['/home']);
           })
@@ -97,6 +100,8 @@ export class AuthService {
     localStorage.removeItem('isUserCreated');
     localStorage.removeItem('ownerId');
     localStorage.removeItem('ownerName');
+    localStorage.removeItem('frontEndToken');
+    localStorage.removeItem('backEndToken');
     this._router.navigate(['login']);
   }
 
@@ -114,6 +119,7 @@ export class AuthService {
       if (res.msg !== "User already exist") {
         this._toastr.success("Your account has been created.", "Sign up successfull")
       }
+      localStorage.setItem("backEndToken", res.token);
     });
   }
 

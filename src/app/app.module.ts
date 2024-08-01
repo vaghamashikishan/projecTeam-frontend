@@ -26,7 +26,7 @@ import { BadgeModule } from 'primeng/badge';
 import { TabViewModule } from 'primeng/tabview';
 
 import { ToastrModule } from 'ngx-toastr';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { HomepageComponent } from './homepage/homepage.component';
 import { AddProjectComponent } from './add-project/add-project.component';
 import { AsterikDirective } from './_directives/asterik.directive';
@@ -40,6 +40,7 @@ import { NgxsModule } from '@ngxs/store';
 import { ProjectState } from './_store/state/project.state';
 import { Dashboard } from './_store/state/dashboard.state';
 import { CollabRequests } from './_store/state/collab-request.state';
+import { tokenAdderInterceptor } from './_interceptors/token-adder.interceptor';
 
 @NgModule({
   declarations: [
@@ -85,7 +86,8 @@ import { CollabRequests } from './_store/state/collab-request.state';
     NgxsReduxDevtoolsPluginModule.forRoot({})
   ],
   providers: [
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    provideHttpClient(withInterceptors([tokenAdderInterceptor]))
   ],
   bootstrap: [AppComponent]
 })

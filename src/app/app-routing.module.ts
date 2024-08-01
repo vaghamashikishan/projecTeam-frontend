@@ -7,11 +7,12 @@ import { ProjectViewComponent } from './project-view/project-view.component';
 import { AddProjectComponent } from './add-project/add-project.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { authGuard } from './_authguards/auth.guard';
 
 const routes: Routes = [
   { path: 'login', component: SignInUpComponent },
   {
-    path: 'home', component: HomepageComponent, children: [
+    path: 'home', canActivate: [authGuard], component: HomepageComponent, children: [
       { path: '', component: ExploreComponent },
       { path: 'explore', component: ExploreComponent },
       { path: 'project/:id', component: ProjectViewComponent },
@@ -20,7 +21,11 @@ const routes: Routes = [
       { path: 'notifications', component: NotificationsComponent },
     ]
   },
-  { path: '**', component: SignInUpComponent },
+  {
+    path: '**', canActivate: [authGuard], component: HomepageComponent, children: [
+      { path: '', component: ExploreComponent },
+    ]
+  },
 ];
 
 @NgModule({
